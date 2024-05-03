@@ -1,22 +1,53 @@
 <script lang="ts">
-const board: string[][] = []
-const width = 10
-const height = 10
+	const board: string[][] = [];
+	const row = 10;
+	const column = 10;
 
-for (let w = 0; w < width; w++) {
-    board[w] = []
-    for (let h = 0; h < height; h++) {
-        board[w][h] = "*"
+    for (let c = 0; c < column; c++) {
+        board[c] = [];
+        for (let r = 0; r < row; r++) {
+		    board[c][r] = '*';
+	    }
     }
-}
 </script>
 
-<div class="flex col bg-black" style="width: 100px; height: 100px;">
-    {#each board as row}
-        <div class="flex bg-black">
-            {#each row as tile}
-                <div class="cell bg-white w-[10px] h-[10px]"></div>
-            {/each}
+<style lang="scss">
+.grid {
+  background-color: #d8c5a1;
+}
+
+.grid-row {
+    display: flex;
+}
+
+.grid-cell {
+    width: 100%
+}
+
+.grid-row:nth-child(even) .grid-cell:nth-child(even) {
+    background-color: #51280c;
+}
+
+.grid-row:nth-child(odd) .grid-cell:nth-child(odd) {
+    background-color: #51280c;
+}
+</style>
+<div class="grid w-[1000px] h-[1000px] border border-black overflow-hidden">
+    {#each board as row, rowIndex}
+        <div class="grid-row" key="row-{rowIndex}">
+            {#if rowIndex % 2 === 0}
+                {#each row as tile, tileIndex}
+                    <div class="text-white text-xl text-center drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] grid-cell flex w-1000 w-[100px] h-[100px]" key="tile-{((9 - rowIndex) * 10) + (9 - tileIndex) + 1}">
+                        {((9 - rowIndex) * 10) + (9 - tileIndex) + 1}
+                    </div>
+                {/each}
+            {:else}
+                {#each row as tile, tileIndex}
+                    <div class="text-white text-xl text-center drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] grid-cell flex w-1000 w-[100px] h-[100px]" key="tile-{((9 - rowIndex) * 10) + tileIndex + 1}">
+                        {((9 - rowIndex) * 10) + tileIndex + 1}
+                    </div>
+                {/each}
+            {/if}
         </div>
     {/each}
 </div>
