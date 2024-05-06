@@ -17,7 +17,7 @@
 			{#if rowIndex % 2 === 0}
 				{#each row as tile, tileIndex}
 					<div
-						class="text-white text-xl text-center drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] grid-cell flex w-1000 w-[100px] h-[100px]"
+						class="text-white text-xl text-center drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] grid-cell flex w-[100px] h-[100px]"
 					>
 						{(9 - rowIndex) * 10 + (9 - tileIndex) + 1}
 					</div>
@@ -25,7 +25,7 @@
 			{:else}
 				{#each row as tile, tileIndex}
 					<div
-						class="text-white text-xl text-center drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] grid-cell flex w-1000 w-[100px] h-[100px]"
+						class="text-white text-xl text-center drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] grid-cell flex w-[100px] h-[100px]"
 					>
 						{(9 - rowIndex) * 10 + tileIndex + 1}
 					</div>
