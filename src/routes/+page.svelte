@@ -37,51 +37,24 @@
 	}
 </script>
 
-<div class="snake-board-game">
+<div class="snake-board-game flex justify-between">
 	<Board bind:this={board} />
 
 	{#each players as _, id}
 		<Player bind:this={playerRefs[id]} {id} {board} />
 	{/each}
 
-	<div class="ui-container">
-		<div class="dice-container">
+	<div class="ui-container flex flex-col">
+		<div class="dice-container flex mb-[10px]">
 			<Dice bind:this={dice1} />
 			<Dice bind:this={dice2} />
 		</div>
 
-		<button class="roll-button" on:click={rollDices}>Roll</button>
+		<button
+			class="roll-button w-fit h-fit px-5 py-2.5 bg-gray-500 cursor-pointer transition-transform duration-300 hover:scale-110"
+			on:click={rollDices}>Roll</button
+		>
 
 		<p>Player turn: {playerTurn + 1}</p>
 	</div>
 </div>
-
-<style lang="scss">
-	.snake-board-game {
-		display: flex;
-		justify-content: space-between;
-	}
-
-	.ui-container {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.dice-container {
-		display: flex;
-		margin-bottom: 10px;
-	}
-
-	.roll-button {
-		width: fit-content;
-		height: fit-content;
-		padding: 10px 20px;
-		background-color: grey;
-		cursor: pointer;
-		transition: transform 0.3s;
-
-		&:hover {
-			transform: scale(1.1);
-		}
-	}
-</style>
