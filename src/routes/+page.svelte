@@ -1,98 +1,87 @@
 <script lang="ts">
-  	import { onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import Dice from './../components/dice.svelte';
-    import Board from "../components/board.svelte";
-    import Player from "../components/player.svelte";
+	import Board from '../components/board.svelte';
+	import Player from '../components/player.svelte';
 
-    let board
+	let board;
 
-    const playerCount = 4;
-    let playerTurn = 0;
-    let players : any[] = [];
-    let playerRefs : Player[] = [];
+	const playerCount = 4;
+	let playerTurn = 0;
+	let players = Array.from({ length: playerCount }, (_, id) => ({ id }));
+	let playerRefs: Player[] = [];
 
-    let dice1: Dice;
-    let dice2: Dice;
+	let dice1: Dice;
+	let dice2: Dice;
 
-    onMount(()=> {
-      players = Array.from({ length: playerCount }, (_, id) => ({ id }));
+	onMount(() => {
+		selectPlayer();
+	});
 
-      selectPlayer();
-    })
+	function rollDices() {
+		dice1.rollDice();
+		dice2.rollDice();
 
-    function rollDices(){
-        dice1.rollDice();
-        dice2.rollDice();
+		playerTurn = (playerTurn + 1) % playerCount;
+		selectPlayer();
+	}
 
-        if (playerTurn >= playerCount) {
-          playerTurn = 0;
-          return;
-        }
-
-        playerTurn++;
-        selectPlayer();
-    }
-
-    function selectPlayer(){
-      playerRefs.forEach((playerRef, index) => {
-        console.log("Index: " + index + " playerTurn: " + playerTurn);
-        if (index + 1 === playerTurn) {
-          playerRef.setSelected();
-          return;
-        } 
-
-          playerRef.setUnselected();
-      });
-    }
+	function selectPlayer() {
+		playerRefs.forEach((playerRef, index) => {
+			if (index === playerTurn) {
+				playerRef.setSelected();
+			} else {
+				playerRef.setUnselected();
+			}
+		});
+	}
 </script>
 
 <div class="snake-board-game">
-    <Board bind:this={board}/>
+	<Board bind:this={board} />
 
-    {#each players as _, id}
-        <Player bind:this={playerRefs[id]} id={id} board={board}/>
-    {/each}
+	{#each players as _, id}
+		<Player bind:this={playerRefs[id]} {id} {board} />
+	{/each}
 
-    <div class="ui-container">
-        <div class="dice-container">
-            <Dice bind:this={dice1}/>
-            <Dice bind:this={dice2}/>
-        </div>
+	<div class="ui-container">
+		<div class="dice-container">
+			<Dice bind:this={dice1} />
+			<Dice bind:this={dice2} />
+		</div>
 
-        <div class="roll-button" on:click={()=> rollDices()}>Roll</div>
+		<button class="roll-button" on:click={rollDices}>Roll</button>
 
-        <p>Player turn: {playerTurn}</p>
-    </div>
+		<p>Player turn: {playerTurn + 1}</p>
+	</div>
 </div>
 
 <style lang="scss">
-    .snake-board-game {
-        display: flex;
-        justify-content: space-between;
-    }
+	.snake-board-game {
+		display: flex;
+		justify-content: space-between;
+	}
 
-    .ui-container {
-        display: flex;
-        flex-direction: column;
-    }
+	.ui-container {
+		display: flex;
+		flex-direction: column;
+	}
 
-    .dice-container {
-        display: flex;
-        margin-bottom: 10px;
-    }
+	.dice-container {
+		display: flex;
+		margin-bottom: 10px;
+	}
 
-    .roll-button {
-        width: fit-content;
-        height: fit-content;
-        padding: 10px 20px;
-        background-color: grey;
-        transition: transform 0.3s;
-        cursor: pointer;
+	.roll-button {
+		width: fit-content;
+		height: fit-content;
+		padding: 10px 20px;
+		background-color: grey;
+		cursor: pointer;
+		transition: transform 0.3s;
 
-        &:hover {
-            transform: scale(1.1);
-        }
-    }
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
 </style>
-
-
